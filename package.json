@@ -1,0 +1,21 @@
+{
+  "name": "file-manager",
+  "version": "1.0.0",
+  "description": "This file-manager application writing on node.js",
+  "type":"module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sekaa4/file-manager"
+  },
+  "keywords": [
+    "nodejs",
+    "sekaa4"
+  ],
+  "author": "sekaa4",
+  "license": "ISC",
+  "homepage": "https://github.com/sekaa4/file-manager#readme"
+}

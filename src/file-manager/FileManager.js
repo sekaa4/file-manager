@@ -5,7 +5,7 @@ export class FileManager {
   constructor() {
     this.username = null;
     this._prefix = '--username=';
-    this._errorMessage = `'Entry correct argument, according to template: <<-- --username=your_username>>`;
+    this._errorMessage = `Entry correct argument, according to template with npm command: <<-- --username=your_username>>`;
     this._welcomeMessage = `Welcome to the File Manager, ${this.username}!` + EOL;
     this.start();
   }
@@ -23,6 +23,7 @@ export class FileManager {
       this.checkUserName();
       this.welcome();
       this.listeners = new Listeners(this.username);
+      this.listeners.showCurrentWorkDir();
     } catch (error) {
       if (error.message === this._errorMessage) {
         console.log(error.message);

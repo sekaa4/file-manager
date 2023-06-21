@@ -1,4 +1,5 @@
-import { EOL } from 'node:os';
+import { EOL, homedir } from 'node:os';
+import { cwd } from 'node:process';
 import { Listeners } from './Listeners.js';
 
 export class FileManager {
@@ -23,7 +24,8 @@ export class FileManager {
       this.checkUserName();
       this.welcome();
       this.listeners = new Listeners(this.username);
-      this.listeners.showCurrentWorkDir();
+      process.stdout.write(`You are currently in ${homedir()}` + EOL);
+      process.chdir(homedir());
     } catch (error) {
       if (error.message === this._errorMessage) {
         console.log(error.message);

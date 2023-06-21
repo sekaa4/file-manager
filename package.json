@@ -2,10 +2,11 @@
   "name": "file-manager",
   "version": "1.0.0",
   "description": "This file-manager application writing on node.js",
-  "type":"module",
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "dev": "node src/index.js --username=Anonymous"
   },
   "repository": {
     "type": "git",

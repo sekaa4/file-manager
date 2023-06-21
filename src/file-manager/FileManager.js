@@ -1,5 +1,4 @@
 import { EOL, homedir } from 'node:os';
-import { cwd } from 'node:process';
 import { Listeners } from './Listeners.js';
 
 export class FileManager {

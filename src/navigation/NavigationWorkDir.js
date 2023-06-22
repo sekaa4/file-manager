@@ -1,12 +1,9 @@
 import { resolve } from 'node:path';
 import { EOL } from 'node:os';
 import { readdir } from 'node:fs/promises';
+import { CommandsOperation } from '../operation/CommandsOperation.js';
 
-export class NavigationWorkDir {
-  constructor() {
-    this.rootDir = process.cwd().slice(0, 3);
-    this.failMessage = 'Operation failed: ';
-  }
+export class NavigationWorkDir extends CommandsOperation {
 
   async handleCommand(command, args) {
     const curCommand = command;
@@ -19,9 +16,9 @@ export class NavigationWorkDir {
         //   process.stdout.write(`Incorrect arguments, please enter correct path` + EOL);
         //   break;
         // }
-        console.log('str', str);
+        // console.log('str', str);
         const path = resolve(process.cwd(), str);
-        console.log('path', path);
+        // console.log('path', path);
         try {
           process.chdir(path);
         } catch (error) {
@@ -36,10 +33,7 @@ export class NavigationWorkDir {
           process.stdout.write(`Incorrect arguments, please enter only <up> command` + EOL);
           break;
         }
-        if (process.cwd() !== this.rootDir) {
-          process.chdir('../');
-          break;
-        }
+        process.chdir('../');
         break;
       }
       case 'ls': {
@@ -50,13 +44,10 @@ export class NavigationWorkDir {
         await this.showDirContent();
         break;
       }
-      // case '.exit': {
-      //   process.exit();
-      // }
 
-      // default:
-      //   process.stdout.write(`Unknown operation, please enter another command` + EOL);
-      //   break;
+      default:
+        process.stdout.write(`Unknown operation, please enter another command` + EOL);
+        break;
     }
   }
 

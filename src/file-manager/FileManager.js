@@ -3,10 +3,10 @@ import { Listeners } from './Listeners.js';
 
 export class FileManager {
   constructor() {
-    this.username = null;
+    this.userName = 'Anonymous';
     this._prefix = '--username=';
     this._errorMessage = `Entry correct argument, according to template with npm command: <<-- --username=your_username>>`;
-    this._welcomeMessage = `Welcome to the File Manager, ${this.username}!` + EOL;
+    this._welcomeMessage = `Welcome to the File Manager, ${this.userName}!` + EOL;
     this.start();
   }
 
@@ -22,7 +22,7 @@ export class FileManager {
     try {
       this.checkUserName();
       this.welcome();
-      this.listeners = new Listeners(this.username);
+      this.listeners = new Listeners(this.userName);
       process.stdout.write(`You are currently in ${homedir()}` + EOL);
       process.chdir(homedir());
     } catch (error) {
@@ -38,8 +38,10 @@ export class FileManager {
     const userNameArg = process.argv.slice(2).find((arg) => arg.startsWith(this._prefix));
     const userName = userNameArg?.slice(this._prefix.length);
     if (userNameArg && userName) {
-      this.username = userName;
+      this.userName = userName;
       this.welcomeMessage = userName;
+    } if (userNameArg && !userName || process.argv.length === 2) {
+      this.welcomeMessage = this.userName;
     } else throw new Error(this._errorMessage);
   }
 

@@ -1,13 +1,13 @@
 import { EOL } from 'node:os';
 import readline from 'node:readline';
-import { NavigationWorkDir } from '../navigation/NavigationWorkDir.js';
+import { CommandHandlerController } from '../command-handler/CommandHandlerController.js';
 
 export class Listeners {
   constructor(userName) {
     this.userName = userName;
     this.byeMessage = `Thank you for using File Manager, ${this.userName}, goodbye!` + EOL;
     this.rl = null;
-    this.navigationCLI = new NavigationWorkDir();
+    this.commandsHandler = new CommandHandlerController();
     this.initialize();
   }
 
@@ -19,8 +19,7 @@ export class Listeners {
     });
     if (process.stdin.isTTY) process.stdin.setRawMode(true);
     this.rl.on('line', async (data) => {
-      await this.navigationCLI.handleCommand(data.trim());
-      this.navigationCLI.showCurrentWorkDir();
+      await this.commandsHandler.start(data);
     });
     process.on('exit', () => {
       process.stdout.write(this.byeMessage);

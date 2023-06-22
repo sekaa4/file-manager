@@ -8,24 +8,20 @@ export class NavigationWorkDir {
     this.failMessage = 'Operation failed: ';
   }
 
-  showCurrentWorkDir() {
-    process.stdout.write(`You are currently in ${process.cwd()}` + EOL);
-  }
-
-  async handleCommand(command) {
-    const splitArgs = command.split(' ');
-    const curCommand = splitArgs.shift();
+  async handleCommand(command, args) {
+    const curCommand = command;
+    const curArgs = [...args];
     // console.log(curCommand);
     switch (curCommand) {
       case 'cd': {
-        const str = splitArgs.join(' ').replaceAll('\'\"', '');
+        const str = curArgs.join(' ').replaceAll('\'', '').replaceAll('\"', '');
         // if (curCommand.length !== 1) {
         //   process.stdout.write(`Incorrect arguments, please enter correct path` + EOL);
         //   break;
         // }
-        // console.log('str', str);
+        console.log('str', str);
         const path = resolve(process.cwd(), str);
-        // console.log('path', path);
+        console.log('path', path);
         try {
           process.chdir(path);
         } catch (error) {
@@ -36,7 +32,7 @@ export class NavigationWorkDir {
         }
       }
       case 'up': {
-        if (splitArgs.length) {
+        if (curArgs.length) {
           process.stdout.write(`Incorrect arguments, please enter only <up> command` + EOL);
           break;
         }
@@ -47,20 +43,20 @@ export class NavigationWorkDir {
         break;
       }
       case 'ls': {
-        if (splitArgs.length) {
+        if (curArgs.length) {
           process.stdout.write(`Incorrect arguments, please enter only <ls> command` + EOL);
           break;
         }
         await this.showDirContent();
         break;
       }
-      case '.exit': {
-        process.exit();
-      }
+      // case '.exit': {
+      //   process.exit();
+      // }
 
-      default:
-        process.stdout.write(`Unknown operation, please enter another command` + EOL);
-        break;
+      // default:
+      //   process.stdout.write(`Unknown operation, please enter another command` + EOL);
+      //   break;
     }
   }
 

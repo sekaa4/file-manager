@@ -3,6 +3,7 @@ import { BasicOperationWithFile } from '../basic-operation/BasicOperationWithFil
 import { SystemOperations } from '../system-operations/SystemOperations.js';
 import { NavigationWorkDir } from '../navigation/NavigationWorkDir.js';
 import { parseCommandLine } from '../utils/parseCommandLine.js';
+import { HashOperation } from '../hash/HashOperation.js';
 
 export class CommandHandlerController {
   constructor() {
@@ -12,6 +13,7 @@ export class CommandHandlerController {
     this.navigationCLI = new NavigationWorkDir();
     this.basicOperations = new BasicOperationWithFile();
     this.systemOperations = new SystemOperations();
+    this.hashOperation = new HashOperation();
   }
 
   async start(data) {
@@ -44,7 +46,7 @@ export class CommandHandlerController {
         }
 
         case 'hash': {
-
+          await this.hashOperation.handleCommand(args);
           break;
         }
 

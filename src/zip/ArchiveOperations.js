@@ -39,6 +39,7 @@ export class ArchiveOperations extends CommandsOperation {
     const [pathFileStr, pathStrNewDir] = args;
     const pathToFile = resolve(process.cwd(), pathFileStr);
     const baseNameFile = basename(pathToFile);
+    const readStream = createReadStream(pathToFile);
     let newFileName;
 
     if (flag === 'compress') {
@@ -47,10 +48,9 @@ export class ArchiveOperations extends CommandsOperation {
       const isCompressFile = baseNameFile.lastIndexOf('.br') !== -1;
       if (isCompressFile) {
         newFileName = baseNameFile.slice(0, baseNameFile.lastIndexOf('.br'));
-      } else throw new Error('File doesn\'t exist or compress with Brotli algorithm');
+      } else throw new Error('File doesn\'t compress with Brotli algorithm');
     }
     const pathToNewDir = resolve(process.cwd(), pathStrNewDir, newFileName);
-    const readStream = createReadStream(pathToFile);
     const writeStream = createWriteStream(pathToNewDir, { flags: 'wx' });
 
     const brotliStream = flag === 'compress' ? createBrotliCompress() : createBrotliDecompress();

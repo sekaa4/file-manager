@@ -1,8 +1,8 @@
-import { resolve, basename } from 'node:path';
+import { resolve, basename, dirname } from 'node:path';
 import { EOL } from 'node:os';
 import { createReadStream, createWriteStream } from 'node:fs';
 import { pipeline } from 'node:stream/promises';
-import { open, writeFile, rename, rm } from 'node:fs/promises';
+import { open, writeFile, rename, rm, access } from 'node:fs/promises';
 import { CommandsOperation } from '../operation/CommandsOperation.js';
 
 export class BasicOperationWithFile extends CommandsOperation {
@@ -42,6 +42,12 @@ export class BasicOperationWithFile extends CommandsOperation {
           }
           const [pathString, name] = curArgs;
           const path = resolve(process.cwd(), pathString);
+          const __dirname = dirname(path);
+          const isExist = await access(resolve(__dirname, name)).then(() => true).catch(() => false);
+          if (isExist) {
+            process.stdout.write(`File ${name} already exist, please enter another name` + EOL);
+            break;
+          }
           await rename(path, name);
           break;
         }

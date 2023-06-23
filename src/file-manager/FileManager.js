@@ -6,6 +6,7 @@ export class FileManager {
     this.userName = 'Anonymous';
     this._prefix = '--username=';
     this._errorMessage = `Entry correct argument, according to template with npm command: <<-- --username=your_username>>`;
+    this._errorOperationMessage = `Operation failed: `;
     this._welcomeMessage = `Welcome to the File Manager, ${this.userName}!` + EOL;
     this.start();
   }
@@ -29,8 +30,9 @@ export class FileManager {
       if (error.message === this._errorMessage) {
         console.log(error.message);
         process.exit(1);
+      } else {
+        console.log(this._errorOperationMessage + error.message + EOL);
       }
-      throw error;
     }
   }
 

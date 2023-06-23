@@ -3,4 +3,8 @@ export class CommandsOperation {
     this.rootDir = process.env.HOMEDRIVE;
     this.failMessage = 'Operation failed: ';
   }
+
+  handlePath(path) {
+    return path.replaceAll('\'', '').replaceAll('\"', '');
+  }
 }

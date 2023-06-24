@@ -8,17 +8,17 @@ export class NavigationWorkDir extends CommandsOperation {
   async handleCommand(command, args) {
     const curCommand = command;
     const curArgs = [...args];
-    // console.log(curCommand);
+
     switch (curCommand) {
       case 'cd': {
-        const str = curArgs.join(' ').replaceAll('\'', '').replaceAll('\"', '');
-        // if (curCommand.length !== 1) {
-        //   process.stdout.write(`Incorrect arguments, please enter correct path` + EOL);
-        //   break;
-        // }
-        // console.log('str', str);
-        const path = resolve(process.cwd(), str);
-        // console.log('path', path);
+        if (curArgs.length !== 1) {
+          process.stdout.write(`Incorrect arguments, please enter correct path` + EOL);
+          break;
+        }
+
+        const handlePath = this.handlePath(curArgs.pop());
+        const path = resolve(process.cwd(), handlePath);
+
         try {
           process.chdir(path);
         } catch (error) {

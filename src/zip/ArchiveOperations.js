@@ -37,7 +37,7 @@ export class ArchiveOperations extends CommandsOperation {
 
   async createPipeline(args, flag) {
     const [pathFileStr, pathStrNewDir] = args;
-    const pathToFile = resolve(process.cwd(), pathFileStr);
+    const pathToFile = resolve(process.cwd(), this.handlePath(pathFileStr));
     const baseNameFile = basename(pathToFile);
     const readStream = createReadStream(pathToFile);
     let newFileName;
@@ -50,7 +50,7 @@ export class ArchiveOperations extends CommandsOperation {
         newFileName = baseNameFile.slice(0, baseNameFile.lastIndexOf('.br'));
       } else throw new Error('File doesn\'t compress with Brotli algorithm');
     }
-    const pathToNewDir = resolve(process.cwd(), pathStrNewDir, newFileName);
+    const pathToNewDir = resolve(process.cwd(), this.handlePath(pathStrNewDir), newFileName);
     const writeStream = createWriteStream(pathToNewDir, { flags: 'wx' });
 
     const brotliStream = flag === 'compress' ? createBrotliCompress() : createBrotliDecompress();

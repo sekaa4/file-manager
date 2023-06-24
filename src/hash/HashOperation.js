@@ -14,7 +14,8 @@ export class HashOperation extends CommandsOperation {
         return;
       }
 
-      const filePath = resolve(process.cwd(), curArgs.pop());
+      const handlePath = this.handlePath(curArgs.pop());
+      const filePath = resolve(process.cwd(), handlePath);
       const contentFile = await readFile(filePath, { encoding: 'utf8' });
       const hashSum = createHash('sha256');
       hashSum.update(contentFile);

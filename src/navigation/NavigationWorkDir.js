@@ -56,10 +56,13 @@ export class NavigationWorkDir extends CommandsOperation {
       const path = resolve(process.cwd());
       const array = await readdir(path, { withFileTypes: true });
       const result = array.reduce((acc, cur) => {
-        const curObjWithType = { name: cur.name, type: cur.isFile() ? 'file' : 'directory' };
-        return [...acc, curObjWithType];
-      }, [])
-        .sort((a, b) => a.type.localeCompare(b.type));
+        const type = cur.isFile() ? 'file' : cur.isDirectory() ? 'directory' : '';
+        if (type) {
+          const curObjWithType = { name: cur.name, type };
+          return [...acc, curObjWithType];
+        }
+        return acc;
+      }, []).sort((a, b) => a.type.localeCompare(b.type));
 
       console.table(result);
     } catch (error) {

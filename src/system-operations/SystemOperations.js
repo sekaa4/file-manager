@@ -21,7 +21,6 @@ export class SystemOperations extends CommandsOperation {
         case 'cpus': {
           const response = this.formatCpusResult(cpus());
           response.forEach((arg) => { console.log(arg); });
-          // console.log(response);
           break;
         }
 

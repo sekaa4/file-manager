@@ -2,7 +2,7 @@ import { resolve, basename, dirname } from 'node:path';
 import { EOL } from 'node:os';
 import { createReadStream, createWriteStream } from 'node:fs';
 import { pipeline } from 'node:stream/promises';
-import { open, writeFile, rename, rm, access } from 'node:fs/promises';
+import { writeFile, rename, rm, access, mkdir } from 'node:fs/promises';
 import { CommandsOperation } from '../operation/CommandsOperation.js';
 
 export class BasicOperationWithFile extends CommandsOperation {
@@ -44,7 +44,7 @@ export class BasicOperationWithFile extends CommandsOperation {
           }
           const [pathString] = curArgs;
           const handlePath = this.handlePath(pathString);
-          const path = resolve(process.cwd(), handlePath);
+          const path = resolve(process.cwd(), handlePath.toString());
           await writeFile(path, '', { flag: 'wx' });
           break;
         }
@@ -104,7 +104,7 @@ export class BasicOperationWithFile extends CommandsOperation {
           break;
       }
     } catch (error) {
-      process.stdout.write(this.failMessage + error.message + EOL);
+      process.stdout.write(this.failMessage + EOL);
     }
   }
 
@@ -116,9 +116,11 @@ export class BasicOperationWithFile extends CommandsOperation {
     const [pathFileStr, pathStrNewDir] = args;
     const pathToFile = resolve(process.cwd(), this.handlePath(pathFileStr));
     const newFileName = basename(pathToFile);
-    const pathToNewDir = resolve(process.cwd(), this.handlePath(pathStrNewDir), newFileName);
+    // const pathToNewDir = resolve(process.cwd(), this.handlePath(pathStrNewDir));
+    const pathFileToNewDir = resolve(process.cwd(), this.handlePath(pathStrNewDir), newFileName);
     const readStream = createReadStream(pathToFile, { encoding: 'utf8' });
-    const writeStream = createWriteStream(pathToNewDir, { flags: 'wx' });
+    // await mkdir(pathToNewDir, { recursive: true }).then(() => true).catch(() => false);
+    const writeStream = createWriteStream(pathFileToNewDir, { flags: 'wx' });
 
     await pipeline(readStream, writeStream);
 

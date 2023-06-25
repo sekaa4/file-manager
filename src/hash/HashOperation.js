@@ -21,7 +21,7 @@ export class HashOperation extends CommandsOperation {
       hashSum.update(contentFile);
       console.log(hashSum.digest('hex'));
     } catch (error) {
-      process.stdout.write(this.failMessage + error.message + EOL);
+      process.stdout.write(this.failMessage + EOL);
     }
   }
 }

@@ -31,7 +31,7 @@ export class ArchiveOperations extends CommandsOperation {
           break;
       }
     } catch (error) {
-      process.stdout.write(this.failMessage + error.message + EOL);
+      process.stdout.write(this.failMessage + EOL);
     }
   }
 

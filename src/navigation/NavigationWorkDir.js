@@ -23,7 +23,7 @@ export class NavigationWorkDir extends CommandsOperation {
           process.chdir(path);
         } catch (error) {
           error.message = 'no directory for this path';
-          process.stdout.write(this.failMessage + error.message + EOL);
+          process.stdout.write(this.failMessage + EOL);
         } finally {
           break;
         }
@@ -67,7 +67,7 @@ export class NavigationWorkDir extends CommandsOperation {
       console.table(result);
     } catch (error) {
       error.message = 'error reading directory';
-      process.stdout.write(this.failMessage + error.message + EOL);
+      process.stdout.write(this.failMessage + EOL);
     }
   };
 }

@@ -6,7 +6,7 @@ export class Listeners {
   constructor(userName) {
     this.userName = userName;
     this.byeMessage = `Thank you for using File Manager, ${this.userName}, goodbye!` + EOL;
-    this.failMessage = 'Operation failed: ';
+    this.failMessage = 'Operation failed';
     this.rl = null;
     this.commandsHandler = new CommandHandlerController();
     this.initialize();
@@ -23,7 +23,7 @@ export class Listeners {
       try {
         await this.commandsHandler.start(data);
       } catch (error) {
-        process.stdout.write(this.failMessage + error.message + EOL);
+        process.stdout.write(this.failMessage + EOL);
       }
     });
     process.on('exit', () => {

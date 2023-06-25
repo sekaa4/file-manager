@@ -20,7 +20,8 @@ export class SystemOperations extends CommandsOperation {
 
         case 'cpus': {
           const response = this.formatCpusResult(cpus());
-          console.log(response);
+          response.forEach((arg) => { console.log(arg); });
+          // console.log(response);
           break;
         }
 
@@ -52,8 +53,8 @@ export class SystemOperations extends CommandsOperation {
 
   formatCpusResult(result) {
     const response = result.reduce((acc, cur) => {
-      return [...acc, { model: cur.model.split(' @ ')[0], speed: `${cur.speed / 1000} GHz` }];
-    }, []);
+      return [...acc, `model: ${cur.model}, speed: ${cur.speed / 1000} GHz`];
+    }, [`amout of CPUS: ${result.length}`]);
 
     return response;
   }

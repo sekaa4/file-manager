@@ -1,4 +1,4 @@
-import { resolve } from 'node:path';
+import { resolve, sep, parse } from 'node:path';
 import { EOL } from 'node:os';
 import { readdir } from 'node:fs/promises';
 import { CommandsOperation } from '../operation/CommandsOperation.js';
@@ -15,10 +15,13 @@ export class NavigationWorkDir extends CommandsOperation {
           process.stdout.write(`Incorrect arguments, please enter correct path` + EOL);
           break;
         }
-
-        const handlePath = this.handlePath(curArgs.pop());
-        const path = resolve(process.cwd(), handlePath);
-
+        // console.log('handlePath', curArgs.pop());
+        const input = curArgs.pop();
+        const handlePath = resolve(this.handlePath(input));
+        const root = parse(handlePath).root;
+        console.log('handlePath', handlePath);
+        console.log('path', parse(handlePath).root.split(sep)[0]);
+        const path = root.split(sep)[0].toUpperCase() === input.toUpperCase() ? root : resolve(process.cwd(), handlePath);
         try {
           process.chdir(path);
         } catch (error) {

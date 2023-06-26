@@ -1,4 +1,4 @@
-import { EOL, cpus, homedir, userInfo, arch } from 'node:os';
+import { arch, cpus, EOL, homedir, userInfo } from 'node:os';
 import { CommandsOperation } from '../operation/CommandsOperation.js';
 
 export class SystemOperations extends CommandsOperation {
@@ -20,7 +20,8 @@ export class SystemOperations extends CommandsOperation {
 
         case 'cpus': {
           const response = this.formatCpusResult(cpus());
-          response.forEach((arg) => { console.log(arg); });
+          console.table({'amout of CPUS': response.length});
+          console.table(response);
           break;
         }
 
@@ -52,8 +53,8 @@ export class SystemOperations extends CommandsOperation {
 
   formatCpusResult(result) {
     const response = result.reduce((acc, cur) => {
-      return [...acc, `model: ${cur.model}, speed: ${cur.speed / 1000} GHz`];
-    }, [`amout of CPUS: ${result.length}`]);
+      return [...acc, {model: cur.model, 'clock rate': `${cur.speed / 1000} GHz`}];
+    }, []);
 
     return response;
   }
